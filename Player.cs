@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float rotation = 75f;
     public float jump = 5f;
     public float distanceToGround = 0.1f;
+    public GameObject bullet;
+    public float bulletSpeed = 100f;
     public LayerMask groundLayer;
     private float vInput;
     private float hInput;
@@ -27,7 +29,15 @@ public class Player : MonoBehaviour
         this.transform.Rotate(Vector3.up * hInput * Time.deltaTime);    */
     }
     void FixedUpdate(){
-        if(IsGrounded() && Input.GetKeyDown(KeyCode.Space)){
+        if(Input.GetMouseButtonDown(0)){
+            GameObject newBullet = Instantiate(bullet,
+            this.transform.position + new Vector3(1,0,0),
+            this.transform.rotation) as GameObject;
+            Rigidbody bulletRB =
+                newBullet.GetComponent<Rigidbody>();
+            bulletRB.velocity = this.transform.forward * bulletSpeed;
+        }
+        if(IsGrounded() && Input.GetKey(KeyCode.Space)){
             _rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
         Vector3 rotation = Vector3.up * hInput;
