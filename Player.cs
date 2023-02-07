@@ -14,11 +14,14 @@ public class Player : MonoBehaviour
     private float vInput;
     private float hInput;
     private Rigidbody _rb;
+    private game _gameManager;
     private CapsuleCollider _col;
+    public bool magicBox = false;
 
     void Start(){
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<CapsuleCollider>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<game>();
     }
     void Update()
     {
@@ -52,6 +55,10 @@ public class Player : MonoBehaviour
         capsuleBottom, distanceToGround, groundLayer,
         QueryTriggerInteraction.Ignore);
         return grounded;
- }
-
+    }
+    void OnCollisionEnter(Collision collision){
+        if(collision.gameObject.name == "Enemy" ||
+            collision.gameObject.name == "Enemy1")
+            _gameManager.HP -= 1;
+    }
 }
