@@ -58,7 +58,11 @@ public class Player : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision){
         if(collision.gameObject.name == "Enemy" ||
-            collision.gameObject.name == "Enemy1")
+            collision.gameObject.name == "Enemy1"||
+            collision.gameObject.name == "Enemy2"||
+            collision.gameObject.name == "Enemy3"||
+            collision.gameObject.name == "Enemy4"||
+            collision.gameObject.name == "Enemy5")
             _gameManager.HP -= 1;
     }
 }
