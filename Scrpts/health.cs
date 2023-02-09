@@ -6,7 +6,7 @@ public class health : MonoBehaviour
 {
     public game gameManager;
     void Start(){   
-    gameManager = GameObject.Find("GameManager").GetComponent<game>();
+    gameManager = GameObject.Find("gameManager").GetComponent<game>();
     }
     void OnCollisionEnter(Collision collision){
         if(collision.gameObject.name == "Player"){
