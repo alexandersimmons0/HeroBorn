@@ -53,6 +53,8 @@ public class enemy_behaviour : MonoBehaviour
             Debug.Log("hit shield");
             Destroy(this.gameObject);
             _gameManager.Shield = false;
+        }else if(other.name == "explosion"){
+            Destroy(this.gameObject);
         }
     }
     void OnCollisionEnter(Collision collision){

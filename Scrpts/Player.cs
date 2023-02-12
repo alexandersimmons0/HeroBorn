@@ -8,8 +8,12 @@ public class Player : MonoBehaviour
     public float rotation = 75f;
     public float jump = 5f;
     public float distanceToGround = 0.1f;
+    public float fireRate = 10.0f;
+    private float nextFire = 0.0f;
     public GameObject bullet;
     public float bulletSpeed = 100f;
+    public GameObject bomb;
+    public float bombSpeed = 25f;
     public LayerMask groundLayer;
     private float vInput;
     private float hInput;
@@ -39,6 +43,19 @@ public class Player : MonoBehaviour
             Rigidbody bulletRB =
                 newBullet.GetComponent<Rigidbody>();
             bulletRB.velocity = this.transform.forward * bulletSpeed;
+        }
+        if(Time.time>nextFire){
+            _gameManager.Throw = true;
+        }
+        if(Input.GetKey(KeyCode.G)&&Time.time>nextFire){
+            nextFire = Time.time + fireRate;
+            GameObject newBomb = Instantiate(bomb,
+            this.transform.position + new Vector3(1,0,0),
+            this.transform.rotation) as GameObject;
+            Rigidbody bombRB =
+                newBomb.GetComponent<Rigidbody>();
+            bombRB.velocity = this.transform.forward * bombSpeed;
+            _gameManager.Throw = false;
         }
         if(IsGrounded() && Input.GetKey(KeyCode.Space)){
             _rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
