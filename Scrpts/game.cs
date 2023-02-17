@@ -38,6 +38,18 @@ public class game : MonoBehaviour
             }
         }
     }
+    private bool _frost = true;
+    public bool Frost{
+        get{return _frost;}
+        set{
+            _frost = value;
+            /*if(_bomb){
+                bombTest = "is Ready";
+            }else{
+                bombTest = "Consumed";
+            }*/
+        }
+    }
     public int Items{
         get{ return _itemsCollected;}
         set{

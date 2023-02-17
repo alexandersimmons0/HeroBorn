@@ -15,7 +15,7 @@ public class shootbomb : MonoBehaviour
  void Start (){
     _col = GetComponent<SphereCollider>();
     _rb = GetComponent<Rigidbody>();
-    _gameManager = GameObject.Find("GameManager").GetComponent<game>();
+   // _gameManager = GameObject.Find("GameManager").GetComponent<game>();
     rend = GameObject.Find("explosion").GetComponent<Renderer>();
     rend.enabled = false;
  }

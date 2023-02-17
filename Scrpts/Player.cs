@@ -8,12 +8,16 @@ public class Player : MonoBehaviour
     public float rotation = 75f;
     public float jump = 5f;
     public float distanceToGround = 0.1f;
-    public float fireRate = 10.0f;
+    public float fireRate = 50.0f;
     private float nextFire = 0.0f;
+    public float fireRateF = 10.0f;
+    private float nextFireF = 0.0f;
     public GameObject bullet;
     public float bulletSpeed = 100f;
     public GameObject bomb;
     public float bombSpeed = 25f;
+    public GameObject frost;
+    public float frostSpeed = 35f;
     public LayerMask groundLayer;
     private float vInput;
     private float hInput;
@@ -50,12 +54,24 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.G)&&Time.time>nextFire){
             nextFire = Time.time + fireRate;
             GameObject newBomb = Instantiate(bomb,
-            this.transform.position + new Vector3(1,0,0),
+            this.transform.position + new Vector3(-1,0,0),
             this.transform.rotation) as GameObject;
             Rigidbody bombRB =
                 newBomb.GetComponent<Rigidbody>();
             bombRB.velocity = this.transform.forward * bombSpeed;
             _gameManager.Throw = false;
+        }
+        if(Time.time>nextFireF){
+            _gameManager.Frost = true;
+        }
+        if(Input.GetKey(KeyCode.F)&&Time.time>nextFireF){
+            nextFireF = Time.time + fireRateF;
+            GameObject newFrost = Instantiate(frost,
+            this.transform.position + new Vector3(0,0,-1),
+             this.transform.rotation) as GameObject;
+            Rigidbody frostRB = newFrost.GetComponent<Rigidbody>();
+            frostRB.velocity = this.transform.forward * frostSpeed;
+            _gameManager.Frost = false;
         }
         if(IsGrounded() && Input.GetKey(KeyCode.Space)){
             _rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
