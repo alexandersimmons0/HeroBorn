@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class magicBox : MonoBehaviour
 {
-    public game gameManager;
+    private game gameManager;
     void Start(){   
     gameManager = GameObject.Find("GameManager").GetComponent<game>();
     }
@@ -12,7 +12,7 @@ public class magicBox : MonoBehaviour
         if(collision.gameObject.name == "Player"){
             Destroy(this.transform.parent.gameObject);
             Debug.Log("Item Collected");
-            gameManager.Items += 1;
+            //gameManager.Items += 1;
             gameManager.Shield = true;
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class coin : MonoBehaviour
 {
-    public game gameManager;
+    private game gameManager;
     void Start(){   
     gameManager = GameObject.Find("GameManager").GetComponent<game>();
     }

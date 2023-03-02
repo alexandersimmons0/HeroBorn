@@ -10,7 +10,7 @@ public class camera_behavior : MonoBehaviour
     private Transform target1;
     private float fireRate = 0.5f;
     private float nextFire = 0.0f;
-    private bool cam = false;
+    private bool cam = true;
     void Start(){
         target = GameObject.Find("cameraPoint").transform;
         target1 = GameObject.Find("Player").transform;

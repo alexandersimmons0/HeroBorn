@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class health : MonoBehaviour
 {
-    public game gameManager;
+    private game gameManager;
     void Start(){   
     gameManager = GameObject.Find("gameManager").GetComponent<game>();
     }
@@ -12,7 +12,7 @@ public class health : MonoBehaviour
         if(collision.gameObject.name == "Player"){
             Destroy(this.transform.parent.gameObject);
             Debug.Log("Item Collected");
-            gameManager.Items += 1;
+            //gameManager.Items += 1;
             gameManager.HP += 1;
         }
     }

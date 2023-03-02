@@ -98,4 +98,13 @@ public class Player : MonoBehaviour
             collision.gameObject.name == "Enemy5")
             _gameManager.HP -= 1;
     }
+    void OnTriggerEnter(Collider other){
+        if(other.gameObject.name == "close"){
+            //if(_gameManager.Gate!=true){
+                _gameManager.Gate = true;
+                _gameManager.Fight = true;
+                Debug.Log("gate closed");
+            //}
+        }
+    }
 }
