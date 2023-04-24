@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
+    private AudioSource frostShot;
     public float speed = 10f;
     public float rotation = 75f;
     public float jump = 5f;
     public float distanceToGround = 0.1f;
-    public float fireRate = 50.0f;
-    private float nextFire = 0.0f;
+    //public float fireRate = 50.0f;
+    //private float nextFire = 0.0f;
     public float fireRateF = 10.0f;
     private float nextFireF = 0.0f;
     public GameObject bullet;
-    public float bulletSpeed = 100f;
+    //public float bulletSpeed = 200f;
     public GameObject bomb;
-    public float bombSpeed = 25f;
+    //public float bombSpeed = 25f;
     public GameObject frost;
     public float frostSpeed = 35f;
     public LayerMask groundLayer;
@@ -25,11 +27,15 @@ public class Player : MonoBehaviour
     private game _gameManager;
     private CapsuleCollider _col;
     public bool magicBox = false;
+    public GameObject ice;
+    //private float bulletCount = 12;
+    //private float bulletTotal = 84;
 
     void Start(){
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<CapsuleCollider>();
         _gameManager = GameObject.Find("GameManager").GetComponent<game>();
+        frostShot = GameObject.Find("iceSpot").GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -38,17 +44,26 @@ public class Player : MonoBehaviour
         /*
         this.transform.Translate(Vector3.forward * vInput * Time.deltaTime);
         this.transform.Rotate(Vector3.up * hInput * Time.deltaTime);    */
-    }
-    void FixedUpdate(){
-        if(Input.GetMouseButtonDown(0)){
+        /*if(Input.GetMouseButtonDown(0)&&bulletCount>0){
             GameObject newBullet = Instantiate(bullet,
-            this.transform.position + new Vector3(1,0,0),
+            gun.transform.position,
             this.transform.rotation) as GameObject;
             Rigidbody bulletRB =
                 newBullet.GetComponent<Rigidbody>();
             bulletRB.velocity = this.transform.forward * bulletSpeed;
+            bulletCount--;
         }
-        if(Time.time>nextFire){
+        if(Input.GetKeyDown(KeyCode.R)){
+            if(bulletTotal>0){
+                while(bulletCount<12&&bulletTotal>0){
+                    bulletTotal--;
+                    bulletCount++;
+                }
+            }
+        }*/
+    }
+    void FixedUpdate(){
+        /*if(Time.time>nextFire){
             _gameManager.Throw = true;
         }
         if(Input.GetKey(KeyCode.G)&&Time.time>nextFire){
@@ -60,14 +75,15 @@ public class Player : MonoBehaviour
                 newBomb.GetComponent<Rigidbody>();
             bombRB.velocity = this.transform.forward * bombSpeed;
             _gameManager.Throw = false;
-        }
+        }*/
         if(Time.time>nextFireF){
             _gameManager.Frost = true;
         }
         if(Input.GetKey(KeyCode.F)&&Time.time>nextFireF){
+            frostShot.Play();
             nextFireF = Time.time + fireRateF;
             GameObject newFrost = Instantiate(frost,
-            this.transform.position + new Vector3(0,0,-1),
+            ice.transform.position,
              this.transform.rotation) as GameObject;
             Rigidbody frostRB = newFrost.GetComponent<Rigidbody>();
             frostRB.velocity = this.transform.forward * frostSpeed;
@@ -103,8 +119,8 @@ public class Player : MonoBehaviour
             //if(_gameManager.Gate!=true){
                 _gameManager.Gate = true;
                 _gameManager.Fight = true;
-                Debug.Log("gate closed");
             //}
         }
     }
+
 }

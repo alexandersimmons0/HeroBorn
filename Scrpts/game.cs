@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class game : MonoBehaviour
@@ -11,13 +12,21 @@ public class game : MonoBehaviour
     public Texture t;
     public int maxItems = 4;
     public Material BoxTexture;
-    public GameObject ice;
+    public GameObject exitToMenu;
+    public GameObject lose;
+    public GameObject masterSlider;
+    public GameObject musicSlider;
+    public GameObject sfxSlider;
     private bool start;
     private int _itemsCollected = 0;
     private bool showWinScreen = false;
     private bool showLoseScreen = false;
     private bool gateState = true;
     private bool pause = false;
+    public bool Paused{
+        get{return pause;}
+        set{pause=value;}
+    }
     public bool Gate{
         get{return gateState;}
         set{gateState = value;}
@@ -57,11 +66,6 @@ public class game : MonoBehaviour
         get{return _frost;}
         set{
             _frost = value;
-            if(_frost){
-                ice.SetActive(true);
-            }else{
-                ice.SetActive(false);
-            }
         }
     }
     public int Items{
@@ -92,46 +96,47 @@ public class game : MonoBehaviour
             }
         }
     }
+    void Start(){
+        exitToMenu.SetActive(false);
+        lose.SetActive(false);
+        masterSlider.SetActive(false);
+        musicSlider.SetActive(false);
+        sfxSlider.SetActive(false);
+        pause = false;
+        Time.timeScale = 1f;
+    }
     void Update(){
-        if(Input.GetKeyUp(KeyCode.Escape)){
+        if(Input.GetKeyUp(KeyCode.Escape)&&!showLoseScreen){
             if(!pause){
                 Time.timeScale = 0;
                 pause=true;
+                exitToMenu.SetActive(true);
+                masterSlider.SetActive(true);
+                musicSlider.SetActive(true);
+                sfxSlider.SetActive(true);
             }else{
                 Time.timeScale = 1f;
                 pause=false;
-            }
-        }
-    }
-    void Restart(){
-        SceneManager.LoadScene(0);
-        Time.timeScale = 1.0f;
-    }
-    void OnGUI(){
-        GUI.Box(new Rect(20, 20, 150, 25), "Player Health:" +
-            _playerHealth);
-        GUI.Box(new Rect(20, 50, 150, 25), "Items Collected: " +
-            _itemsCollected);
-        GUI.Box(new Rect(20, 80, 150, 25), "Shield " + shieldTest);
-        GUI.Box(new Rect(20, 110, 150, 25), "Bomb " + bombTest);
-        GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height -
-            50, 300, 50), labelText);
-        if(pause){
-            GUI.Box(new Rect(Screen.width/2 - 75, Screen.height/2 -50, 100, 25), "Paused");
-            if(GUI.Button(new Rect(Screen.width/2 - 75, Screen.height/2 + 50, 100, 25), "Restart")){
-                Restart();
-            }
-        }
-        if(showWinScreen){
-            if (GUI.Button(new Rect(Screen.width/2 - 100,
-                Screen.height/2 - 50, 200, 100), "YOU WON!")){
-                Restart();
+                exitToMenu.SetActive(false);
+                masterSlider.SetActive(false);
+                musicSlider.SetActive(false);
+                sfxSlider.SetActive(false);
             }
         }
         if(showLoseScreen){
+            exitToMenu.SetActive(true);
+            lose.SetActive(true);
+            masterSlider.SetActive(true);
+            musicSlider.SetActive(true);
+            sfxSlider.SetActive(true);
+            Time.timeScale = 0;
+        }
+    }
+    void OnGUI(){
+        if(showWinScreen){
             if (GUI.Button(new Rect(Screen.width/2 - 100,
-                Screen.height/2 - 50, 200, 100), "YOU LOSE!")){
-                Restart();
+                Screen.height/2 - 50, 200, 100), "YOU WON!")){
+                Utilities.RestartLevel();
             }
         }
     }

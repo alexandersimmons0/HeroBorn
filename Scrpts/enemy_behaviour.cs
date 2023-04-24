@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.AI;
 
 public class enemy_behaviour : MonoBehaviour
@@ -11,6 +12,7 @@ public class enemy_behaviour : MonoBehaviour
     private game _gameManager;
     private int locationIndex = 0;
     private NavMeshAgent agent;
+    private AudioSource sound;
     private int _lives = 3;
     public int enemyLives{
         get{ return _lives;}
@@ -23,6 +25,7 @@ public class enemy_behaviour : MonoBehaviour
         }
     }
     void Start(){
+        sound = GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
         _gameManager = GameObject.Find("GameManager").GetComponent<game>();
         player = GameObject.Find("Player").transform;
@@ -46,6 +49,7 @@ public class enemy_behaviour : MonoBehaviour
         locationIndex = (locationIndex + 1) % locations.Count;
     }
     void OnTriggerEnter(Collider other){
+        sound.Play();
         if(other.name == "Player"){
             agent.destination = player.position;
             Debug.Log("Player detected - Attack");
@@ -60,6 +64,8 @@ public class enemy_behaviour : MonoBehaviour
     void OnCollisionEnter(Collision collision){
         if(collision.gameObject.name == "bullet(Clone)"){
             enemyLives -= 1;
+        }else if(collision.gameObject.name == "frost(Clone)"){
+            Destroy(this.gameObject);
         }
     }
     void OnTriggerExit(Collider other){

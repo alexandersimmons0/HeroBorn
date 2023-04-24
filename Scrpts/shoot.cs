@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class shoot : MonoBehaviour
 {
- public float onscreenDelay = 2f;
- 
- void Start (){
-    Destroy(this.gameObject, onscreenDelay);
- }
+    private SphereCollider _col;
+    private Rigidbody _rb;
+    void Start(){
+        _col = GetComponent<SphereCollider>();
+        _rb = GetComponent<Rigidbody>();
+    }
+    void OnCollisionEnter(Collision collision){
+        Destroy(this.gameObject);
+    }
 }

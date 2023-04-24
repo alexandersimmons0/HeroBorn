@@ -9,10 +9,9 @@ public class frost : MonoBehaviour
     void Start(){
         _col = GetComponent<SphereCollider>();
         _rb = GetComponent<Rigidbody>();
-        Debug.Log("frost");
     }
     void OnCollisionEnter(Collision collision){
+        if(collision.gameObject.name!="Player")
         Destroy(this.gameObject);
-        Debug.Log("frosty");
     }
 }
